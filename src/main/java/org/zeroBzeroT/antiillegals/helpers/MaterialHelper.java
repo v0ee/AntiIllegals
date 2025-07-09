@@ -97,20 +97,20 @@ public class MaterialHelper {
 
     @NotNull
     private static final Set<Material> NON_SHULKER_CONTAINERS = Set.of(
+            Material.BARREL,
             Material.BEACON,
+            Material.BLAST_FURNACE,
             Material.BREWING_STAND,
+            Material.BUNDLE,
             Material.CHEST,
-            Material.TRAPPED_CHEST,
+            Material.CHEST_MINECART,
             Material.DISPENSER,
             Material.DROPPER,
             Material.FURNACE,
             Material.HOPPER,
-            Material.BARREL,
-            Material.BUNDLE,
-            Material.SMOKER,
-            Material.BLAST_FURNACE,
             Material.HOPPER_MINECART,
-            Material.CHEST_MINECART
+            Material.SMOKER,
+            Material.TRAPPED_CHEST
     );
 
     public static void loadIllegalMaterials() {
