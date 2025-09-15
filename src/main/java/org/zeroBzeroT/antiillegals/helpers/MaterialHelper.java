@@ -97,17 +97,27 @@ public class MaterialHelper {
 
     @NotNull
     private static final Set<Material> NON_SHULKER_CONTAINERS = Set.of(
+            Material.ARMOR_STAND,
             Material.BARREL,
             Material.BEACON,
+            Material.BEEHIVE,
             Material.BLAST_FURNACE,
             Material.BREWING_STAND,
             Material.BUNDLE,
+            Material.CAMPFIRE,
+            Material.CAULDRON,
             Material.CHEST,
-            Material.CHEST_MINECART,
+            Material.CHISELED_BOOKSHELF,
             Material.DISPENSER,
             Material.DROPPER,
+            Material.ENDER_CHEST,
+            Material.FLOWER_POT,
             Material.FURNACE,
             Material.HOPPER,
+            Material.ITEM_FRAME,
+            Material.JUKEBOX,
+            Material.LECTERN,
+            Material.CHEST_MINECART,
             Material.HOPPER_MINECART,
             Material.SMOKER,
             Material.TRAPPED_CHEST
