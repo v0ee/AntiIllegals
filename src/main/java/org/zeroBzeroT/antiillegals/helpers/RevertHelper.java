@@ -2,7 +2,10 @@ package org.zeroBzeroT.antiillegals.helpers;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTCompoundList;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -40,6 +43,12 @@ public class RevertHelper {
     private static final Cache<Integer, CachedState> REVERTED_ITEM_CACHE = CacheBuilder.newBuilder()
             .expireAfterAccess(1, TimeUnit.MINUTES)
             .build();
+
+    private static final Set<String> BEE_SENSITIVE_TAGS = Set.of(
+        "FlowerPos",
+        "Paper.Origin",
+        "Paper.OriginWorld"
+    );
 
     private RevertHelper() {
 
@@ -437,9 +446,58 @@ public class RevertHelper {
         if (!nbtItem.hasTag("BlockEntityTag"))
             return false;
 
+        if (MaterialHelper.isBeeContainer(itemStack))
+            return sanitizeBeeContainer(itemStack, nbtItem);
+
         nbtItem.removeKey("BlockEntityTag");
         nbtItem.applyNBT(itemStack);
         return true;
+    }
+
+    private static boolean sanitizeBeeContainer(@NotNull final ItemStack itemStack, @NotNull final NBTItem nbtItem) {
+        final NBTCompound blockEntityTag = nbtItem.getCompound("BlockEntityTag");
+        if (blockEntityTag == null)
+            return false;
+
+        boolean modified = removeSensitiveBeeData(blockEntityTag);
+
+        final NBTCompoundList bees = blockEntityTag.getCompoundList("Bees");
+        if (bees != null) {
+            for (final ReadWriteNBT bee : bees) {
+                if (bee == null)
+                    continue;
+
+                modified = removeSensitiveBeeData(bee) || modified;
+
+                if (!bee.hasTag("EntityData"))
+                    continue;
+
+                final ReadWriteNBT entityData = bee.getCompound("EntityData");
+                if (entityData == null)
+                    continue;
+
+                modified = removeSensitiveBeeData(entityData) || modified;
+            }
+        }
+
+        if (modified)
+            nbtItem.applyNBT(itemStack);
+
+        return modified;
+    }
+
+    private static boolean removeSensitiveBeeData(@NotNull final ReadWriteNBT compound) {
+        boolean modified = false;
+
+        for (final String key : BEE_SENSITIVE_TAGS) {
+            if (!compound.hasTag(key))
+                continue;
+
+            compound.removeKey(key);
+            modified = true;
+        }
+
+        return modified;
     }
 
     /**

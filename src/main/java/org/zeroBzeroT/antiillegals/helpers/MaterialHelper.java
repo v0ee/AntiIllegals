@@ -99,6 +99,7 @@ public class MaterialHelper {
     private static final Set<Material> NON_SHULKER_CONTAINERS = Set.of(
             Material.ARMOR_STAND,
             Material.BARREL,
+            Material.BEE_NEST,
             Material.BEACON,
             Material.BEEHIVE,
             Material.BLAST_FURNACE,
@@ -120,7 +121,13 @@ public class MaterialHelper {
             Material.CHEST_MINECART,
             Material.HOPPER_MINECART,
             Material.SMOKER,
-            Material.TRAPPED_CHEST
+        Material.TRAPPED_CHEST
+    );
+
+    @NotNull
+    private static final Set<Material> BEE_CONTAINER_MATERIALS = Set.of(
+        Material.BEEHIVE,
+        Material.BEE_NEST
     );
 
     public static void loadIllegalMaterials() {
@@ -243,6 +250,14 @@ public class MaterialHelper {
 
     public static boolean isNonShulkerContainer(@NotNull final ItemStack itemStack) {
         return NON_SHULKER_CONTAINERS.contains(itemStack.getType());
+    }
+
+    public static boolean isBeeContainer(@NotNull final ItemStack itemStack) {
+        return isBeeContainer(itemStack.getType());
+    }
+
+    public static boolean isBeeContainer(@NotNull final Material material) {
+        return BEE_CONTAINER_MATERIALS.contains(material);
     }
 
 }
