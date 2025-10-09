@@ -26,41 +26,6 @@ public class AntiIllegals extends JavaPlugin {
         saveDefaultConfig();
     }
 
-    /**
-     * fired when the plugin gets enabled
-     */
-    public void onEnable() {
-        getServer().getPluginManager().registerEvents(new Events(), this);
-
-        log("bStats", "" + getConfig().getBoolean("bStats"));
-        log("nameColors", "" + getConfig().getBoolean("nameColors"));
-        log("unbreakables", "" + getConfig().getBoolean("unbreakables"));
-        log("durability", "" + getConfig().getBoolean("durability"));
-        log("illegalBlocks", "" + getConfig().getBoolean("illegalBlocks"));
-        log("nbtFurnaces", "" + getConfig().getBoolean("nbtFurnaces"));
-        log("overstackedItems", "" + getConfig().getBoolean("overstackedItems"));
-        log("allowCollectibles", "" + getConfig().getBoolean("allowCollectibles"));
-        log("conflictingEnchantments", "" + getConfig().getBoolean("conflictingEnchantments"));
-        log("maxEnchantments", "" + getConfig().getBoolean("maxEnchantments"));
-        log("shulkerBoxes", "" + getConfig().getBoolean("shulkerBoxes"));
-        log("maxBooksInShulker", "" + getConfig().getInt("maxBooksInShulker"));
-        log("maxBooksShulkersInInventory", "" + getConfig().getInt("maxBooksShulkersInInventory"));
-        log("attributeModifiers", "" + getConfig().getBoolean("attributeModifiers"));
-        log("customPotionEffects", "" + getConfig().getBoolean("customPotionEffects"));
-
-        MaterialHelper.loadIllegalMaterials();
-
-        log("illegalMaterials", MaterialHelper.requireIllegalMaterials()
-                .stream()
-                .map(Material::toString)
-                .collect(Collectors.joining(", ")));
-
-        // Load Plugin Metrics
-        if (getConfig().getBoolean("bStats")) {
-            new Metrics(this, 16227);
-        }
-    }
-
     @NotNull
     public static FileConfiguration config() {
         return INSTANCE.getConfig();
@@ -75,6 +40,43 @@ public class AntiIllegals extends JavaPlugin {
                 .append(Component.text(message).color(NamedTextColor.YELLOW));
 
         Bukkit.getConsoleSender().sendMessage(component);
+    }
+
+    /**
+     * fired when the plugin gets enabled
+     */
+    public void onEnable() {
+        getServer().getPluginManager().registerEvents(new Events(), this);
+
+        log("bStats", "" + getConfig().getBoolean("bStats"));
+        log("nameColors", "" + getConfig().getBoolean("nameColors"));
+        log("unbreakables", "" + getConfig().getBoolean("unbreakables"));
+        log("durability", "" + getConfig().getBoolean("durability"));
+        log("illegalBlocks", "" + getConfig().getBoolean("illegalBlocks"));
+        log("nbtContainers", "" + getConfig().getBoolean("nbtContainers"));
+        log("overstackedItems", "" + getConfig().getBoolean("overstackedItems"));
+        log("allowCollectibles", "" + getConfig().getBoolean("allowCollectibles"));
+        log("conflictingEnchantments", "" + getConfig().getBoolean("conflictingEnchantments"));
+        log("maxEnchantments", "" + getConfig().getBoolean("maxEnchantments"));
+        log("shulkerBoxes", "" + getConfig().getBoolean("shulkerBoxes"));
+        log("maxBooksInShulker", "" + getConfig().getInt("maxBooksInShulker"));
+        log("maxBooksShulkersInInventory", "" + getConfig().getInt("maxBooksShulkersInInventory"));
+        log("attributeModifiers", "" + getConfig().getBoolean("attributeModifiers"));
+        log("customPotionEffects", "" + getConfig().getBoolean("customPotionEffects"));
+        log("suspiciousStewEffects", "" + getConfig().getBoolean("suspiciousStewEffects"));
+        log("hideFlags", "" + getConfig().getBoolean("hideFlags"));
+
+        MaterialHelper.loadIllegalMaterials();
+
+        log("illegalMaterials", MaterialHelper.requireIllegalMaterials()
+                .stream()
+                .map(Material::toString)
+                .collect(Collectors.joining(", ")));
+
+        // Load Plugin Metrics
+        if (getConfig().getBoolean("bStats")) {
+            new Metrics(this, 16227);
+        }
     }
 
 }

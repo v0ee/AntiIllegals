@@ -12,23 +12,24 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.zeroBzeroT.antiillegals.AntiIllegals;
 import org.zeroBzeroT.antiillegals.result.CachedState;
 import org.zeroBzeroT.antiillegals.result.ItemState;
-import org.zeroBzeroT.antiillegals.result.RevertionResult;
+import org.zeroBzeroT.antiillegals.result.ReversionResult;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +46,9 @@ public class RevertHelper {
             .build();
 
     private static final Set<String> BEE_SENSITIVE_TAGS = Set.of(
-        "FlowerPos",
-        "Paper.Origin",
-        "Paper.OriginWorld"
+            "FlowerPos",
+            "Paper.Origin",
+            "Paper.OriginWorld"
     );
 
     private RevertHelper() {
@@ -56,10 +57,11 @@ public class RevertHelper {
 
     /**
      * use this to revert a single itemstack
-     * @param itemStack the item to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param itemStack      the item to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
-     * @param predicate the predicate to match the returned ItemState against
+     * @param predicate      the predicate to match the returned ItemState against
      * @return whether the predicate holds true for the returned ItemState
      */
     public static boolean revert(@Nullable final ItemStack itemStack, @Nullable final Location location,
@@ -69,8 +71,9 @@ public class RevertHelper {
 
     /**
      * use this to revert a single itemstack
-     * @param itemStack the item to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param itemStack      the item to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
      * @return whether the item was illegal in any way (by type or by nbt)
      */
@@ -81,22 +84,23 @@ public class RevertHelper {
 
     /**
      * use this to revert multiple items
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param items          the items to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
-     * @return whether any of the items were illegal in any way (by type or by nbt)
      */
-    public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-                                    @Nullable final ItemStack @NotNull ... items) {
-        return revertAll(location, checkRecursive, Arrays.stream(items));
+    public static void revertAll(@Nullable final Location location, final boolean checkRecursive,
+                                 @Nullable final ItemStack @NotNull ... items) {
+        revertAll(location, checkRecursive, Arrays.stream(items));
     }
 
     /**
      * use this to revert multiple items
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param items          the items to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
-     * @param predicate the predicate to match the returned ItemState against
+     * @param predicate      the predicate to match the returned ItemState against
      * @return whether any of the itemstates matched the predicate
      */
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
@@ -107,8 +111,9 @@ public class RevertHelper {
 
     /**
      * use this to revert multiple items
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param items          the items to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
      * @return whether any of the items were illegal in any way (by type or by nbt)
      */
@@ -119,23 +124,10 @@ public class RevertHelper {
     }
 
     /**
-     * use this to revert multiple items
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
-     * @param predicate the predicate to match the returned ItemState against
-     * @return whether any of the itemstates matched the predicate
-     */
-    @SuppressWarnings("UnusedReturnValue")
-    public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-                                    @NotNull final Predicate<ItemState> predicate,
-                                    @NotNull final Collection<ItemStack> items) {
-        return revertAll(location, checkRecursive, predicate, items.stream());
-    }
-
-    /**
      * use this to revert multiple items from a stream
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param items          the items to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
      * @return whether any of the items were illegal in any way (by type or by nbt)
      */
@@ -146,10 +138,11 @@ public class RevertHelper {
 
     /**
      * use this to revert multiple items from a stream
-     * @param items the items to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param items          the items to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
-     * @param predicate the predicate to match the returned ItemState against
+     * @param predicate      the predicate to match the returned ItemState against
      * @return whether any of the itemstates matched the predicate
      */
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
@@ -158,10 +151,11 @@ public class RevertHelper {
         return items.anyMatch(i -> revert(i, location, checkRecursive, predicate));
     }
 
-    public static <E extends Event & Cancellable> void revertEntity(@NotNull final Entity entity, @NotNull final E event) {
-        if (!(entity instanceof final ItemFrame itemFrame)) return;
-
-        revertItemFrame(itemFrame, event);
+    public static <E extends Event & Cancellable> void revertItemDisplayEntity(@NotNull final Entity entity, @NotNull final E event) {
+        if (entity instanceof final ItemFrame itemFrame)
+            revertItemFrame(itemFrame, event);
+        else if (entity instanceof final ArmorStand armorStand)
+            revertArmorStand(armorStand, event);
     }
 
     public static <E extends Event & Cancellable> void revertItemFrame(@NotNull final ItemFrame itemFrame, @NotNull final E event) {
@@ -172,6 +166,26 @@ public class RevertHelper {
             event.setCancelled(true);
             itemFrame.setItem(new ItemStack(Material.AIR));
             log(event.getEventName(), "Deleted Illegal from item frame.");
+        }
+    }
+
+    public static <E extends Event & Cancellable> void revertArmorStand(@NotNull final ArmorStand armorStand, @NotNull final E event) {
+        final Location location = armorStand.getLocation();
+        boolean deletedIllegal = false;
+
+        // Check and revert all armor stand equipment
+        for (final EquipmentSlot slot : EquipmentSlot.values()) {
+            final ItemStack item = armorStand.getItem(slot);
+            if (RevertHelper.revert(item, location, true, ItemState::isIllegal)) {
+                deletedIllegal = true;
+                armorStand.setItem(slot, new ItemStack(Material.AIR));
+            }
+        }
+
+        // If any illegal items were found and reverted, cancel the event
+        if (deletedIllegal) {
+            event.setCancelled(true);
+            log(event.getEventName(), "Deleted Illegal from armor stand.");
         }
     }
 
@@ -197,7 +211,7 @@ public class RevertHelper {
      * @return number of books in that inventory (worst code I have ever written)
      */
     @NotNull
-    public static RevertionResult checkInventory(@NotNull final Inventory inventory, @Nullable final Location location,
+    public static ReversionResult checkInventory(@NotNull final Inventory inventory, @Nullable final Location location,
                                                  final boolean checkRecursive, final boolean isInsideShulker) {
         final List<ItemStack> removeItemStacks = new ArrayList<>();
         final List<ItemStack> bookItemStacks = new ArrayList<>();
@@ -228,31 +242,36 @@ public class RevertHelper {
                     + " - Dropped Shulkers: " + fixesBookShulkers
                     + " - Illegal NBT: " + wasFixed + ".");
 
-        return new RevertionResult(bookItemStacks.size(), wasReverted);
+        return new ReversionResult(bookItemStacks.size(), wasReverted);
     }
 
     /**
      * removes all kinds of currently existent illegal nbt data
+     *
      * @param itemStack the item to revert
      * @return whether the nbt data was modified
      */
     private static boolean revertIllegalNBTData(@NotNull final ItemStack itemStack) {
+        // bitwise here, since all operations should execute
         return revertColoredName(itemStack)
                 | revertIllegalDurability(itemStack)
                 | revertUnbreakableTag(itemStack)
                 | revertOverstackedItem(itemStack)
-                | revertNBTContainer(itemStack)
+                | revertNBTContainers(itemStack)
                 | removeConflictingEnchantments(itemStack)
                 | removeAttributes(itemStack)
+                | removeHideFlags(itemStack)
                 | removeCustomPotionEffects(itemStack)
+                | removeSuspiciousStewEffects(itemStack)
                 | removeIllegalEnchantmentLevels(itemStack)
                 | removeIllegalFlightTime(itemStack);
     }
 
     /**
      * this reverts a single itemstack, but without a cache (slow)
-     * @param itemStack the item to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param itemStack      the item to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
      * @return the state of the item that was checked
      */
@@ -268,7 +287,7 @@ public class RevertHelper {
             return ItemState.IS_BOOK;
 
         if (checkRecursive && AntiIllegals.config().getBoolean("shulkerBoxes")) {
-            final Optional<RevertionResult> result = InventoryHolderHelper.mapInventory(itemStack,
+            final Optional<ReversionResult> result = InventoryHolderHelper.mapInventory(itemStack,
                     inventory -> checkInventory(inventory, location, true, true)
             );
             if (result.isPresent()) {
@@ -295,8 +314,9 @@ public class RevertHelper {
 
     /**
      * use this to revert a single itemstack
-     * @param itemStack the item to revert
-     * @param location the location where books / book shulkers should drop (if any)
+     *
+     * @param itemStack      the item to revert
+     * @param location       the location where books / book shulkers should drop (if any)
      * @param checkRecursive whether containers in item form should be checked for their content recursively
      * @return the state of the item that was checked
      */
@@ -313,9 +333,8 @@ public class RevertHelper {
         try {
             metaHash = CachedState.itemStackHashCode(itemStack);
             cachedRevertedItem = REVERTED_ITEM_CACHE.getIfPresent(metaHash);
-        }
-        catch (Exception ex) {
-            log("RevertHelper",itemStack + " threw exception " + ex);
+        } catch (Exception ex) {
+            log("RevertHelper", itemStack + " threw exception " + ex);
         }
 
         if (cachedRevertedItem == null) {
@@ -335,6 +354,7 @@ public class RevertHelper {
     /**
      * strips the color of the display name of an item
      * note: written book names are not affected by this; only the display name is checked
+     *
      * @param itemStack the item to revert
      * @return whether the name was stripped from color
      */
@@ -361,6 +381,7 @@ public class RevertHelper {
 
     /**
      * reverts the illegal durability of an item. the durability is clamped into the range from 0 to the max durability
+     *
      * @param itemStack the item to revert
      * @return whether the durability was reverted
      */
@@ -394,6 +415,7 @@ public class RevertHelper {
 
     /**
      * remove the unbreakable tag from a tool, armor or weapon (if given)
+     *
      * @param itemStack the item to revert
      * @return whether the unbreakable tag was removed
      */
@@ -415,6 +437,7 @@ public class RevertHelper {
 
     /**
      * deletes an item if the item type is illegal
+     *
      * @param itemStack the item to revert
      * @return whether the item was deleted
      */
@@ -430,12 +453,12 @@ public class RevertHelper {
 
     /**
      * removes the BlockEntityTag from any non-shulkerbox container items
+     *
      * @param itemStack the item to revert
      * @return whether the nbt tag was removed
      */
-    private static boolean revertNBTContainer(@NotNull final ItemStack itemStack) {
-        // TODO rename the config option to nbtContainers
-        if (!AntiIllegals.config().getBoolean("nbtFurnaces"))
+    private static boolean revertNBTContainers(@NotNull final ItemStack itemStack) {
+        if (!AntiIllegals.config().getBoolean("nbtContainers"))
             return false;
 
         if (!MaterialHelper.isNonShulkerContainer(itemStack))
@@ -443,15 +466,17 @@ public class RevertHelper {
 
         final NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.hasTag("BlockEntityTag"))
-            return false;
-
         if (MaterialHelper.isBeeContainer(itemStack))
             return sanitizeBeeContainer(itemStack, nbtItem);
 
-        nbtItem.removeKey("BlockEntityTag");
-        nbtItem.applyNBT(itemStack);
-        return true;
+        if (nbtItem.hasTag("BlockEntityTag") || nbtItem.hasTag("EntityTag")) {
+            nbtItem.removeKey("BlockEntityTag");
+            nbtItem.removeKey("EntityTag");
+            nbtItem.applyNBT(itemStack);
+            return true;
+        }
+
+        return false;
     }
 
     private static boolean sanitizeBeeContainer(@NotNull final ItemStack itemStack, @NotNull final NBTItem nbtItem) {
@@ -486,6 +511,12 @@ public class RevertHelper {
         return modified;
     }
 
+    /**
+     * Removes sensitive bee data from NBT compounds
+     *
+     * @param compound the NBT compound to sanitize
+     * @return whether any sensitive data was removed
+     */
     private static boolean removeSensitiveBeeData(@NotNull final ReadWriteNBT compound) {
         boolean modified = false;
 
@@ -502,6 +533,7 @@ public class RevertHelper {
 
     /**
      * sets the stack size of an item to its maximum if the maximum was exceeded
+     *
      * @param itemStack the item to revert
      * @return whether the stack size was modified
      */
@@ -521,6 +553,7 @@ public class RevertHelper {
 
     /**
      * removes conflicting enchantments from an item and only keeps a single one randomly, to resolve the conflict
+     *
      * @param itemStack the item to revert
      * @return whether the enchantments were modified
      */
@@ -551,6 +584,7 @@ public class RevertHelper {
 
     /**
      * removes any attribute modifiers from an item
+     *
      * @param itemStack the item to revert
      * @return whether attribute modifiers were removed
      */
@@ -567,7 +601,58 @@ public class RevertHelper {
     }
 
     /**
+     * removes any attribute modifiers from an item
+     *
+     * @param itemStack the item to revert
+     * @return whether attribute modifiers were removed
+     */
+    private static boolean removeHideFlags(@NotNull final ItemStack itemStack) {
+        if (!AntiIllegals.config().getBoolean("hideFlags"))
+            return false;
+
+        final NBTItem nbtItem = new NBTItem(itemStack);
+        if (!nbtItem.hasTag("HideFlags")) return false;
+
+        nbtItem.removeKey("HideFlags");
+        nbtItem.applyNBT(itemStack);
+        return true;
+    }
+
+    /**
+     * Removes suspicious stew effects that exceed normal limits of 240 ticks (highest effect duration)
+     *
+     * @param itemStack the suspicious stew item to check
+     * @return whether any effects were removed or modified
+     */
+    private static boolean removeSuspiciousStewEffects(@NotNull final ItemStack itemStack) {
+        if (!AntiIllegals.config().getBoolean("suspiciousStewEffects"))
+            return false;
+
+        if (itemStack.getType() != Material.SUSPICIOUS_STEW)
+            return false;
+
+        ItemMeta meta = itemStack.getItemMeta();
+        if (!(meta instanceof SuspiciousStewMeta stewMeta))
+            return false;
+
+        List<PotionEffect> effects = stewMeta.getCustomEffects();
+
+        // More than 1 effect or any effect with high duration
+        for (PotionEffect effect : effects) {
+            if (effects.size() > 1 || effect.getDuration() > 240) {
+                stewMeta.clearCustomEffects();
+                stewMeta.addCustomEffect(new PotionEffect(PotionEffectType.SATURATION, 7, 1), true);
+                itemStack.setItemMeta(stewMeta);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * removes any custom potion effects from an item
+     *
      * @param itemStack the item to revert
      * @return whether any effects were removed
      */
@@ -592,6 +677,7 @@ public class RevertHelper {
      * if the item is not enchantable and collectibles are enabled, the enchantment level will
      * be clamped down to 1 if greater than 1, or to 0 if less than 0.
      * if the item is not enchantable and collectibles are disabled, the enchantment is removed.
+     *
      * @param itemStack the item to revert
      * @return whether any enchantments were modified
      */
@@ -600,8 +686,10 @@ public class RevertHelper {
         final boolean allowCollectibles = AntiIllegals.INSTANCE.getConfig().getBoolean("allowCollectibles");
 
         boolean wasFixed = false;
+
         for (final Enchantment enchantment : itemStack.getEnchantments().keySet()) {
             final int level = itemStack.getEnchantmentLevel(enchantment);
+
             if (enchantment.canEnchantItem(itemStack)) {
                 // if the items is enchant-able by the enchantment, then force the maximum leve
                 if (level < 0 || level > enchantment.getMaxLevel()) {
@@ -611,6 +699,7 @@ public class RevertHelper {
                 }
                 continue;
             }
+
             if (allowCollectibles && !MaterialHelper.isArmor(itemStack) && !MaterialHelper.isWeapon(itemStack)) {
                 // item is not enchant-able by the enchantment, is not a weapon or armor and lore items are enabled
                 if (level < 0 || level > 1) {
@@ -620,6 +709,7 @@ public class RevertHelper {
                 }
                 continue;
             }
+
             // item is not enchant-able by the enchantment
             wasFixed = true;
             itemStack.removeEnchantment(enchantment);
@@ -629,6 +719,7 @@ public class RevertHelper {
 
     /**
      * removes illegal flight duration from firework rockets
+     *
      * @param itemStack the item to revert
      * @return whether the flight duration (if any) was modified
      */
@@ -651,7 +742,7 @@ public class RevertHelper {
             itemStack.setItemMeta(fireworkMeta);
             return true;
         }
+
         return false;
     }
-
 }

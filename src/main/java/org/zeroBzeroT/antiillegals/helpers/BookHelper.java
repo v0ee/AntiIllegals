@@ -57,6 +57,7 @@ public class BookHelper {
 
     /**
      * filters all books from an inventory into a stream
+     *
      * @param inventory the inventory to iterate over
      * @return a stream of all book itemstacks
      */
@@ -69,6 +70,7 @@ public class BookHelper {
 
     /**
      * checks whether an inventory contains books in it
+     *
      * @param inventory the inventory to check
      * @return whether it contains books
      */
@@ -78,6 +80,7 @@ public class BookHelper {
 
     /**
      * checks whether an inventory holder item contains books in it
+     *
      * @param itemStack the inventory holder item to check
      * @return whether it contains books
      */
@@ -97,8 +100,8 @@ public class BookHelper {
     }
 
     public static int cleanOversizedItems(@NotNull final Inventory inventory, @Nullable final Location location,
-                                     @NotNull final Collection<ItemStack> shulkerWithBooksItemStack,
-                                     final int maxItems) {
+                                          @NotNull final Collection<ItemStack> shulkerWithBooksItemStack,
+                                          final int maxItems) {
         if (location == null || maxItems < 0 || shulkerWithBooksItemStack.size() <= maxItems) return 0;
 
         int counter = 0;
@@ -110,6 +113,7 @@ public class BookHelper {
         }
         return counter;
     }
+
     public static void checkEnderChest(@NotNull final InventoryOpenEvent inventoryOpenEvent,
                                        @Nullable final Location location) {
         final Inventory inventory = inventoryOpenEvent.getInventory();
@@ -123,5 +127,4 @@ public class BookHelper {
             );
         }
     }
-
 }

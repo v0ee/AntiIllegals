@@ -31,8 +31,9 @@ public class InventoryHolderHelper {
     /**
      * allows modification of the inventory of a container item.
      * does nothing if the item does not have an inventory.
+     *
      * @param itemStack the item to change the inventory of
-     * @param function what to do with that inventory
+     * @param function  what to do with that inventory
      * @return whether the items inventory was changed
      */
     @NotNull

@@ -11,10 +11,6 @@ import java.util.stream.Collectors;
 
 public class MaterialHelper {
 
-    private MaterialHelper() {
-
-    }
-
     @NotNull
     public static final Set<Material> ARMOR_MATERIALS = Set.of(
             Material.CHAINMAIL_HELMET,
@@ -44,7 +40,6 @@ public class MaterialHelper {
             Material.NETHERITE_BOOTS,
             Material.TURTLE_HELMET
     );
-
     @NotNull
     public static final Set<Material> WEAPON_MATERIALS = Set.of(
             Material.WOODEN_AXE,
@@ -63,7 +58,6 @@ public class MaterialHelper {
             Material.CROSSBOW,
             Material.TRIDENT
     );
-
     @NotNull
     public static final Set<Material> TOOLS_MATERIALS = Set.of(
             Material.WOODEN_SHOVEL,
@@ -91,10 +85,6 @@ public class MaterialHelper {
             Material.BRUSH,
             Material.WARPED_FUNGUS_ON_A_STICK
     );
-
-    @Nullable
-    public static Set<Material> ILLEGAL_MATERIALS;
-
     @NotNull
     private static final Set<Material> NON_SHULKER_CONTAINERS = Set.of(
             Material.ARMOR_STAND,
@@ -114,6 +104,7 @@ public class MaterialHelper {
             Material.ENDER_CHEST,
             Material.FLOWER_POT,
             Material.FURNACE,
+            Material.GLOW_ITEM_FRAME,
             Material.HOPPER,
             Material.ITEM_FRAME,
             Material.JUKEBOX,
@@ -121,14 +112,22 @@ public class MaterialHelper {
             Material.CHEST_MINECART,
             Material.HOPPER_MINECART,
             Material.SMOKER,
-        Material.TRAPPED_CHEST
+            Material.TRAPPED_CHEST
     );
-
     @NotNull
     private static final Set<Material> BEE_CONTAINER_MATERIALS = Set.of(
-        Material.BEEHIVE,
-        Material.BEE_NEST
+            Material.BEEHIVE,
+            Material.BEE_NEST
     );
+    /**
+     * Filled dynamically from the config.
+     */
+    @Nullable
+    public static Set<Material> ILLEGAL_MATERIALS;
+
+    private MaterialHelper() {
+
+    }
 
     public static void loadIllegalMaterials() {
         ILLEGAL_MATERIALS = AntiIllegals.config().getStringList("illegalMaterials")
@@ -145,6 +144,7 @@ public class MaterialHelper {
 
     /**
      * finds a given material by its name. no wildcard support
+     *
      * @param name the name of the material to find (case-insensitive)
      * @return an optional material. present if the material was found by name, empty if not
      */
@@ -157,6 +157,7 @@ public class MaterialHelper {
 
     /**
      * matches all materials which match the specified pattern by name
+     *
      * @param pattern the pattern to match materials for (case-insensitive)
      * @return the set of materials that matched the pattern
      */
@@ -169,6 +170,7 @@ public class MaterialHelper {
 
     /**
      * slightly optimized version of matchMaterialsByPattern. if no wildcard match is used, no extra work is done.
+     *
      * @param pattern the pattern to match materials for (case-insensitive)
      * @return the set of materials that matched the pattern
      */
@@ -184,14 +186,14 @@ public class MaterialHelper {
     }
 
     private static boolean matchPattern(@NotNull final String pattern, @NotNull final String str) {
-        if (pattern.length() == 0 && str.length() == 0) return true;
-        if (pattern.length() > 1 && pattern.charAt(0) == '*' && str.length() == 0) return false;
+        if (pattern.isEmpty() && str.isEmpty()) return true;
+        if (pattern.length() > 1 && pattern.charAt(0) == '*' && str.isEmpty()) return false;
 
         if ((pattern.length() > 1 && pattern.charAt(0) == '?')
-                || (pattern.length() != 0 && str.length() != 0 && pattern.charAt(0) == str.charAt(0)))
+                || (!pattern.isEmpty() && !str.isEmpty() && pattern.charAt(0) == str.charAt(0)))
             return matchPattern(pattern.substring(1), str.substring(1));
 
-        if (pattern.length() > 0 && pattern.charAt(0) == '*')
+        if (!pattern.isEmpty() && pattern.charAt(0) == '*')
             return matchPattern(pattern.substring(1), str) || matchPattern(pattern, str.substring(1));
         return false;
     }

@@ -1,10 +1,10 @@
 bStats: true
-nameColors: true
-unbreakables: true
+nameColors: false
+unbreakables: false
 flightTime: true
 durability: true
 illegalBlocks: true
-nbtFurnaces: true
+nbtContainers: true
 overstackedItems: true
 allowCollectibles: true
 conflictingEnchantments: true
@@ -14,6 +14,8 @@ maxBooksInShulker: 10
 maxBooksShulkersInInventory: 3
 attributeModifiers: true
 customPotionEffects: true
+hideFlags: true
+suspiciousStewEffects: true
 
 illegalMaterials:
   - "bedrock"
@@ -43,3 +45,4 @@ illegalMaterials:
 # - "infested_*"
 # - "dirt_path"
 # - "knowledge_book"
+
