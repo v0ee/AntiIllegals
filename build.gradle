@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'io.github.goooler.shadow' version '8.1.7'
-    id 'xyz.jpenilla.run-paper' version '2.3.0'
+    id 'xyz.jpenilla.run-paper' version '3.0.1'
 }
 
 group = 'org.zeroBzeroT'
