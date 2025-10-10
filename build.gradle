@@ -53,7 +53,7 @@ dependencies {
 
     // Other dependencies
     shadow 'de.tr7zw:item-nbt-api:2.15.2'
-    shadow 'org.bstats:bstats-bukkit:3.0.0'
+    shadow 'org.bstats:bstats-bukkit:3.1.0'
 }
 
 java {
