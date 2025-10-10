@@ -2,21 +2,15 @@
 
 Plugin for **Spigot Minecraft servers** to restrict certain block placements and to remove illegals from player inventories.
 
-![logo](https://github.com/zeroBzeroT/AntiIllegals/blob/master/logo.jpg?raw=true)
-
+[![downloads](https://img.shields.io/github/downloads/zeroBzeroT/AntiIllegals/total)](https://github.com/zeroBzeroT/AntiIllegals/releases)
 [![discord](https://img.shields.io/discord/895546064260718622?logo=discord)](https://discord.0b0t.org)
 [![reddit](https://img.shields.io/reddit/subreddit-subscribers/0b0t)](https://old.reddit.com/r/0b0t/)
 ![last commit](https://img.shields.io/github/last-commit/zeroBzeroT/AntiIllegals)
 ![repo size](https://img.shields.io/github/languages/code-size/zeroBzeroT/AntiIllegals.svg?label=repo%20size)
-[![downloads](https://img.shields.io/github/downloads/zeroBzeroT/AntiIllegals/total)](https://github.com/zeroBzeroT/AntiIllegals/releases)
 
-## Versions
+![logo](logo.jpg)
 
-| git                                                              | version | mc     |
-|------------------------------------------------------------------|---------|--------|
-| [master](https://github.com/zeroBzeroT/AntiIllegals/tree/master) | 1.2.x   | 1.21.x |
-| [1.20.4](https://github.com/zeroBzeroT/AntiIllegals/tree/1.20.4) | 1.1.x   | 1.20.4 |
-| [1.12.2](https://github.com/zeroBzeroT/AntiIllegals/tree/1.12.2) | 1.0.x   | 1.12.2 |
+---
 
 ## Details
 
@@ -26,6 +20,14 @@ Plugin for **Spigot Minecraft servers** to restrict certain block placements and
 - [x] Remove Illegal Blocks From Inventories
 - [x] Over Stacked Items
 - [x] Improved Performance
+
+## Versions
+
+| git                                                              | version | mc     |
+|------------------------------------------------------------------|---------|--------|
+| [master](https://github.com/zeroBzeroT/AntiIllegals/tree/master) | 1.2.x   | 1.21.x |
+| [1.20.4](https://github.com/zeroBzeroT/AntiIllegals/tree/1.20.4) | 1.1.x   | 1.20.4 |
+| [1.12.2](https://github.com/zeroBzeroT/AntiIllegals/tree/1.12.2) | 1.0.x   | 1.12.2 |
 
 ## Illegal Blocks (Configurable)
     - ENDER_PORTAL_FRAME
