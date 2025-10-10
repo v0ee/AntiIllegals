@@ -52,7 +52,7 @@ dependencies {
     //compileOnly group: 'dev.folia', name: 'folia-api', version: "${project.minecraft_version}-R0.1-SNAPSHOT"
 
     // Other dependencies
-    shadow 'de.tr7zw:item-nbt-api:2.14.1'
+    shadow 'de.tr7zw:item-nbt-api:2.15.2'
     shadow 'org.bstats:bstats-bukkit:3.0.0'
 }
 
