@@ -1,11 +1,11 @@
 plugins {
     id 'java-library'
     id 'io.github.goooler.shadow' version '8.1.7'
-    id 'xyz.jpenilla.run-paper' version '2.3.0'
+    id 'xyz.jpenilla.run-paper' version '3.0.1'
 }
 
 group = 'org.zeroBzeroT'
-version = '1.1.11'
+version = '1.1.12'
 description = 'A plugin for Minecraft servers. Restricts certain block placements and removes illegals from player inventories.'
 
 ext {
@@ -52,7 +52,7 @@ dependencies {
     //compileOnly group: 'dev.folia', name: 'folia-api', version: "${project.minecraft_version}-R0.1-SNAPSHOT"
 
     // Other dependencies
-    shadow 'de.tr7zw:item-nbt-api:2.14.1'
+    shadow 'de.tr7zw:item-nbt-api:2.15.2'
     shadow 'org.bstats:bstats-bukkit:3.1.0'
 }
 

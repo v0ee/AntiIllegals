@@ -35,9 +35,9 @@ illegalMaterials:
   - "vault"
   - "trial_spawner"
   - "reinforced_deepslate"
+  - "bundle"
 
 # technically illegal, but not reverting these by default
-# - "bundle"
 # - "chorus_plant"
 # - "dirt_path"
 # - "farmland"
