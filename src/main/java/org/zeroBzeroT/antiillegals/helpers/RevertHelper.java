@@ -240,6 +240,8 @@ public class RevertHelper {
 
         for (final ItemStack itemStack : inventory.getContents()) {
             switch (checkItemStack(itemStack, location, checkRecursive)) {
+                case EMPTY, CLEAN -> {
+                }
                 case ILLEGAL -> removeItemStacks.add(itemStack);
                 case WAS_FIXED -> wasFixed = true;
                 case IS_BOOK -> bookItemStacks.add(itemStack);
