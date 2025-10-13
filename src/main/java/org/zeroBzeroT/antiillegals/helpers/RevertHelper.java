@@ -67,7 +67,7 @@ public class RevertHelper {
      * @return whether the predicate holds true for the returned ItemState
      */
     public static boolean revert(@Nullable final ItemStack itemStack, @Nullable final Location location,
-            final boolean checkRecursive, @NotNull final Predicate<ItemState> predicate) {
+                                 final boolean checkRecursive, @NotNull final Predicate<ItemState> predicate) {
         return predicate.test(checkItemStack(itemStack, location, checkRecursive));
     }
 
@@ -82,7 +82,7 @@ public class RevertHelper {
      * @return whether the item was illegal in any way (by type or by nbt)
      */
     public static boolean revert(@Nullable final ItemStack itemStack, @Nullable final Location location,
-            final boolean checkRecursive) {
+                                 final boolean checkRecursive) {
         return revert(itemStack, location, checkRecursive, ItemState::wasReverted);
     }
 
@@ -96,7 +96,7 @@ public class RevertHelper {
      *                       their content recursively
      */
     public static void revertAll(@Nullable final Location location, final boolean checkRecursive,
-            @Nullable final ItemStack @NotNull... items) {
+                                 @Nullable final ItemStack @NotNull ... items) {
         revertAll(location, checkRecursive, Arrays.stream(items));
     }
 
@@ -112,8 +112,8 @@ public class RevertHelper {
      * @return whether any of the itemstates matched the predicate
      */
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-            @NotNull final Predicate<ItemState> predicate,
-            @Nullable final ItemStack @NotNull... items) {
+                                    @NotNull final Predicate<ItemState> predicate,
+                                    @Nullable final ItemStack @NotNull ... items) {
         return revertAll(location, checkRecursive, predicate, Arrays.stream(items));
     }
 
@@ -129,7 +129,7 @@ public class RevertHelper {
      */
     @SuppressWarnings("UnusedReturnValue")
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-            @NotNull final Collection<ItemStack> items) {
+                                    @NotNull final Collection<ItemStack> items) {
         return revertAll(location, checkRecursive, items.stream());
     }
 
@@ -144,7 +144,7 @@ public class RevertHelper {
      * @return whether any of the items were illegal in any way (by type or by nbt)
      */
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-            @NotNull final Stream<ItemStack> items) {
+                                    @NotNull final Stream<ItemStack> items) {
         return items.anyMatch(i -> revert(i, location, checkRecursive));
     }
 
@@ -160,13 +160,13 @@ public class RevertHelper {
      * @return whether any of the itemstates matched the predicate
      */
     public static boolean revertAll(@Nullable final Location location, final boolean checkRecursive,
-            @NotNull final Predicate<ItemState> predicate,
-            @NotNull final Stream<ItemStack> items) {
+                                    @NotNull final Predicate<ItemState> predicate,
+                                    @NotNull final Stream<ItemStack> items) {
         return items.anyMatch(i -> revert(i, location, checkRecursive, predicate));
     }
 
     public static <E extends Event & Cancellable> void revertItemDisplayEntity(@NotNull final Entity entity,
-            @NotNull final E event) {
+                                                                               @NotNull final E event) {
         if (entity instanceof final ItemFrame itemFrame)
             revertItemFrame(itemFrame, event);
         else if (entity instanceof final ArmorStand armorStand)
@@ -174,7 +174,7 @@ public class RevertHelper {
     }
 
     public static <E extends Event & Cancellable> void revertItemFrame(@NotNull final ItemFrame itemFrame,
-            @NotNull final E event) {
+                                                                       @NotNull final E event) {
         final ItemStack item = itemFrame.getItem();
         final Location location = itemFrame.getLocation();
 
@@ -186,7 +186,7 @@ public class RevertHelper {
     }
 
     public static <E extends Event & Cancellable> void revertArmorStand(@NotNull final ArmorStand armorStand,
-            @NotNull final E event) {
+                                                                        @NotNull final E event) {
         final Location location = armorStand.getLocation();
         boolean deletedIllegal = false;
 
@@ -216,7 +216,7 @@ public class RevertHelper {
      * @param checkRecursive true, if items inside containers should be checked
      */
     public static void checkInventory(@NotNull final Inventory inventory, @Nullable final Location location,
-            final boolean checkRecursive) {
+                                      final boolean checkRecursive) {
         checkInventory(inventory, location, checkRecursive, false);
     }
 
@@ -231,7 +231,7 @@ public class RevertHelper {
      */
     @NotNull
     public static ReversionResult checkInventory(@NotNull final Inventory inventory, @Nullable final Location location,
-            final boolean checkRecursive, final boolean isInsideShulker) {
+                                                 final boolean checkRecursive, final boolean isInsideShulker) {
         final List<ItemStack> removeItemStacks = new ArrayList<>();
         final List<ItemStack> bookItemStacks = new ArrayList<>();
         final List<ItemStack> shulkerWithBooksItemStack = new ArrayList<>();
@@ -301,8 +301,8 @@ public class RevertHelper {
      */
     @NotNull
     private static ItemState checkItemStackUncached(@NotNull final ItemStack itemStack,
-            @Nullable final Location location,
-            final boolean checkRecursive) {
+                                                    @Nullable final Location location,
+                                                    final boolean checkRecursive) {
         if (deleteIllegalItem(itemStack))
             return ItemState.ILLEGAL;
 
@@ -333,7 +333,7 @@ public class RevertHelper {
      * @param checkRecursive  true, if items inside containers should be checked
      */
     public static void checkArmorContents(@NotNull final PlayerInventory playerInventory,
-            @Nullable final Location location, final boolean checkRecursive) {
+                                          @Nullable final Location location, final boolean checkRecursive) {
         revertAll(location, checkRecursive, playerInventory.getArmorContents());
     }
 
@@ -349,7 +349,7 @@ public class RevertHelper {
      */
     @NotNull
     public static ItemState checkItemStack(@Nullable final ItemStack itemStack, @Nullable final Location location,
-            final boolean checkRecursive) {
+                                           final boolean checkRecursive) {
 
         if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getAmount() == 0)
             return ItemState.EMPTY;
