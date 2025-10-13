@@ -54,6 +54,8 @@ public class AntiIllegals extends JavaPlugin {
         log("durability", "" + getConfig().getBoolean("durability"));
         log("illegalBlocks", "" + getConfig().getBoolean("illegalBlocks"));
         log("nbtContainers", "" + getConfig().getBoolean("nbtContainers"));
+        log("blockStates.enabled", "" + getConfig().getBoolean("blockStates.enabled"));
+        log("blockStates.keys", String.join(", ", getConfig().getStringList("blockStates.keys")));
         log("overstackedItems", "" + getConfig().getBoolean("overstackedItems"));
         log("allowCollectibles", "" + getConfig().getBoolean("allowCollectibles"));
         log("conflictingEnchantments", "" + getConfig().getBoolean("conflictingEnchantments"));

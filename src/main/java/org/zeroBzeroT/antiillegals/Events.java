@@ -7,6 +7,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import org.zeroBzeroT.antiillegals.helpers.BookHelper;
 import org.zeroBzeroT.antiillegals.helpers.InventoryHolderHelper;
 import org.zeroBzeroT.antiillegals.helpers.RevertHelper;
+import org.zeroBzeroT.antiillegals.result.ReversionResult;
 import org.zeroBzeroT.antiillegals.result.ItemState;
 
 public class Events implements Listener {
@@ -60,6 +62,28 @@ public class Events implements Listener {
 
         InventoryHolderHelper.getInventory(block)
                 .ifPresent(inventory -> RevertHelper.checkInventory(inventory, location, true));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerInteractBlock(@NotNull final PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        final Block block = event.getClickedBlock();
+        if (block == null || block.getType() != Material.CHISELED_BOOKSHELF)
+            return;
+
+        InventoryHolderHelper.getInventory(block).ifPresent(inventory -> {
+            final Location location = block.getLocation();
+            final ReversionResult result = RevertHelper.checkInventory(inventory, location, true, false);
+
+            if (!result.wasReverted())
+                return;
+
+            block.getState().update(true, false);
+            AntiIllegals.log(event.getEventName(), "Removed illegal items from chiseled bookshelf used by "
+                    + event.getPlayer().getName() + ".");
+        });
     }
 
     @EventHandler(ignoreCancelled = true)
