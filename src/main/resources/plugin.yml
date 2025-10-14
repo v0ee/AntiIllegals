@@ -1,6 +1,6 @@
 name: AntiIllegals
 version: @VERSION@
-authors: [bierdosenhalter]
+authors: [ bierdosenhalter, nothub, Pr3roxDLC, Syni0, v0ee, antonymphs, crxyne ]
 main: org.zeroBzeroT.antiillegals.AntiIllegals
 api-version: 1.20
 folia-supported: true

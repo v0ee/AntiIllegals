@@ -28,8 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import org.zeroBzeroT.antiillegals.helpers.BookHelper;
 import org.zeroBzeroT.antiillegals.helpers.InventoryHolderHelper;
 import org.zeroBzeroT.antiillegals.helpers.RevertHelper;
-import org.zeroBzeroT.antiillegals.result.ReversionResult;
 import org.zeroBzeroT.antiillegals.result.ItemState;
+import org.zeroBzeroT.antiillegals.result.ReversionResult;
 
 public class Events implements Listener {
 
