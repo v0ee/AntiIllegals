@@ -28,7 +28,7 @@ maxBooksInShulker: 10
 maxBooksShulkersInInventory: 3
 attributeModifiers: true
 customPotionEffects: true
-hideFlags: false
+hideFlags: true
 suspiciousStewEffects: true
 
 illegalMaterials:

@@ -38,8 +38,7 @@ public class MaterialHelper {
             Material.NETHERITE_CHESTPLATE,
             Material.NETHERITE_LEGGINGS,
             Material.NETHERITE_BOOTS,
-            Material.TURTLE_HELMET
-    );
+            Material.TURTLE_HELMET);
     @NotNull
     public static final Set<Material> WEAPON_MATERIALS = Set.of(
             Material.WOODEN_AXE,
@@ -56,8 +55,7 @@ public class MaterialHelper {
             Material.NETHERITE_AXE,
             Material.NETHERITE_SWORD,
             Material.CROSSBOW,
-            Material.TRIDENT
-    );
+            Material.TRIDENT);
     @NotNull
     public static final Set<Material> TOOLS_MATERIALS = Set.of(
             Material.WOODEN_SHOVEL,
@@ -83,8 +81,7 @@ public class MaterialHelper {
             Material.NETHERITE_SHOVEL,
             Material.NETHERITE_HOE,
             Material.BRUSH,
-            Material.WARPED_FUNGUS_ON_A_STICK
-    );
+            Material.WARPED_FUNGUS_ON_A_STICK);
     @NotNull
     private static final Set<Material> NON_SHULKER_CONTAINERS = Set.of(
             Material.ARMOR_STAND,
@@ -113,13 +110,11 @@ public class MaterialHelper {
             Material.CHEST_MINECART,
             Material.HOPPER_MINECART,
             Material.SMOKER,
-            Material.TRAPPED_CHEST
-    );
+            Material.TRAPPED_CHEST);
     @NotNull
     private static final Set<Material> BEE_CONTAINER_MATERIALS = Set.of(
             Material.BEEHIVE,
-            Material.BEE_NEST
-    );
+            Material.BEE_NEST);
     /**
      * Filled dynamically from the config.
      */
@@ -147,7 +142,8 @@ public class MaterialHelper {
      * finds a given material by its name. no wildcard support
      *
      * @param name the name of the material to find (case-insensitive)
-     * @return an optional material. present if the material was found by name, empty if not
+     * @return an optional material. present if the material was found by name,
+     *         empty if not
      */
     @NotNull
     public static Optional<Material> findMaterial(@NotNull final String name) {
@@ -170,7 +166,8 @@ public class MaterialHelper {
     }
 
     /**
-     * slightly optimized version of matchMaterialsByPattern. if no wildcard match is used, no extra work is done.
+     * slightly optimized version of matchMaterialsByPattern. if no wildcard match
+     * is used, no extra work is done.
      *
      * @param pattern the pattern to match materials for (case-insensitive)
      * @return the set of materials that matched the pattern
@@ -187,8 +184,10 @@ public class MaterialHelper {
     }
 
     private static boolean matchPattern(@NotNull final String pattern, @NotNull final String str) {
-        if (pattern.isEmpty() && str.isEmpty()) return true;
-        if (pattern.length() > 1 && pattern.charAt(0) == '*' && str.isEmpty()) return false;
+        if (pattern.isEmpty() && str.isEmpty())
+            return true;
+        if (pattern.length() > 1 && pattern.charAt(0) == '*' && str.isEmpty())
+            return false;
 
         if ((pattern.length() > 1 && pattern.charAt(0) == '?')
                 || (!pattern.isEmpty() && !str.isEmpty() && pattern.charAt(0) == str.charAt(0)))

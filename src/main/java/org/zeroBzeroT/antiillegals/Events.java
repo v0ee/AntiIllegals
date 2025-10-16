@@ -106,7 +106,7 @@ public class Events implements Listener {
             return;
         }
 
-    if (state == ItemState.WAS_FIXED) {
+        if (state == ItemState.WAS_FIXED) {
             lectern.getInventory().setItem(0, book);
             lectern.update(true, false);
             AntiIllegals.log(event.getEventName(), "Sanitized book taken from lectern used by "
@@ -192,7 +192,8 @@ public class Events implements Listener {
         if (RevertHelper.revertAll(location, true, ItemState::isIllegal, itemStackUsed)) {
             event.setCancelled(true);
             itemStackUsed.setAmount(0);
-            AntiIllegals.log(event.getEventName(), "Removed illegal block '" + placedBlockType + "' while being placed by " + playerName + ".");
+            AntiIllegals.log(event.getEventName(),
+                    "Removed illegal block '" + placedBlockType + "' while being placed by " + playerName + ".");
         }
     }
 
@@ -264,7 +265,8 @@ public class Events implements Listener {
             event.setCancelled(true);
             playerItem.setAmount(0);
             armorStandItem.setAmount(0);
-            AntiIllegals.log(event.getEventName(), "Removed illegal items of " + event.getPlayer().getName() + " on armor stand manipulation.");
+            AntiIllegals.log(event.getEventName(),
+                    "Removed illegal items of " + event.getPlayer().getName() + " on armor stand manipulation.");
         }
     }
 
