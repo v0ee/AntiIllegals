@@ -3,6 +3,7 @@ package org.zeroBzeroT.antiillegals;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Lectern;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -84,6 +85,33 @@ public class Events implements Listener {
             AntiIllegals.log(event.getEventName(), "Removed illegal items from chiseled bookshelf used by "
                     + event.getPlayer().getName() + ".");
         });
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerTakeLecternBook(@NotNull final PlayerTakeLecternBookEvent event) {
+        final ItemStack book = event.getBook();
+        if (book == null || book.getType() == Material.AIR)
+            return;
+
+        final Lectern lectern = event.getLectern();
+        final Location location = lectern.getLocation();
+        final ItemState state = RevertHelper.checkItemStack(book, location, true);
+
+        if (state == ItemState.ILLEGAL) {
+            event.setCancelled(true);
+            lectern.getInventory().setItem(0, new ItemStack(Material.AIR));
+            lectern.update(true, false);
+            AntiIllegals.log(event.getEventName(), "Removed illegal book from lectern used by "
+                    + event.getPlayer().getName() + ".");
+            return;
+        }
+
+    if (state == ItemState.WAS_FIXED) {
+            lectern.getInventory().setItem(0, book);
+            lectern.update(true, false);
+            AntiIllegals.log(event.getEventName(), "Sanitized book taken from lectern used by "
+                    + event.getPlayer().getName() + ".");
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

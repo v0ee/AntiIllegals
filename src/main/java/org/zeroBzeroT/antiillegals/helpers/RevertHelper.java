@@ -291,8 +291,12 @@ public class RevertHelper {
 
         final boolean wasFixed = revertIllegalNBTData(itemStack);
 
-        if (BookHelper.isBookItem(itemStack))
-            return ItemState.IS_BOOK;
+        if (BookHelper.isBookItem(itemStack)) {
+            // If the book item had illegal NBT that was fixed above, report WAS_FIXED so
+            // callers (like lectern handling) will apply the sanitized item rather than
+            // early-returning as IS_BOOK and skipping the modifications.
+            return wasFixed ? ItemState.WAS_FIXED : ItemState.IS_BOOK;
+        }
 
         if (checkRecursive && AntiIllegals.config().getBoolean("shulkerBoxes")) {
             final Optional<ReversionResult> result = InventoryHolderHelper.mapInventory(itemStack,

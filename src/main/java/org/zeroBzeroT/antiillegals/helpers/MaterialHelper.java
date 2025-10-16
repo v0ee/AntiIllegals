@@ -96,6 +96,7 @@ public class MaterialHelper {
             Material.BREWING_STAND,
             Material.BUNDLE,
             Material.CAMPFIRE,
+            Material.SOUL_CAMPFIRE,
             Material.CAULDRON,
             Material.CHEST,
             Material.CHISELED_BOOKSHELF,
