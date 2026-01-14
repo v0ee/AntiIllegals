@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -321,6 +322,19 @@ public class Events implements Listener {
         if (removedInventoryItems) {
             AntiIllegals.log(event.getEventName(),
                     "Removed illegal items from " + player.getName() + " on join.");
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    private void onItemSpawnEvent(@NotNull final ItemSpawnEvent event) {
+        final ItemStack itemStack = event.getEntity().getItemStack();
+        final Location location = event.getLocation();
+        final Entity entity = event.getEntity();
+
+        if (RevertHelper.revertAll(entity.getLocation(), true, ItemState::isIllegal, itemStack)) {
+            event.setCancelled(true);
+            itemStack.setAmount(0);
+            AntiIllegals.log(event.getEventName(), "Prevented an illegal in item form from spawning at the coordinates " + location);
         }
     }
 }
