@@ -44,7 +44,7 @@ import static org.zeroBzeroT.antiillegals.AntiIllegals.log;
 public class RevertHelper {
 
     @NotNull
-    private static final Cache<Integer, CachedState> REVERTED_ITEM_CACHE = CacheBuilder.newBuilder()
+    private static final Cache<String, CachedState> REVERTED_ITEM_CACHE = CacheBuilder.newBuilder()
             .expireAfterAccess(1, TimeUnit.MINUTES)
             .build();
 
@@ -358,11 +358,11 @@ public class RevertHelper {
             return ItemState.EMPTY;
 
         CachedState cachedRevertedItem = null;
-        int metaHash = 0;
+        String cacheKey = null;
 
         try {
-            metaHash = CachedState.itemStackHashCode(itemStack);
-            cachedRevertedItem = REVERTED_ITEM_CACHE.getIfPresent(metaHash);
+            cacheKey = CachedState.itemStackCacheKey(itemStack);
+            cachedRevertedItem = REVERTED_ITEM_CACHE.getIfPresent(cacheKey);
         } catch (Exception ex) {
             log("RevertHelper", itemStack + " threw exception " + ex);
         }
@@ -370,8 +370,8 @@ public class RevertHelper {
         if (cachedRevertedItem == null) {
             final ItemState revertedState = checkItemStackUncached(itemStack, location, checkRecursive);
 
-            if (revertedState.wasModified()) {
-                REVERTED_ITEM_CACHE.put(metaHash, new CachedState(itemStack.clone(), revertedState));
+            if (revertedState.wasModified() && cacheKey != null) {
+                REVERTED_ITEM_CACHE.put(cacheKey, new CachedState(itemStack.clone(), revertedState));
             }
 
             return revertedState;

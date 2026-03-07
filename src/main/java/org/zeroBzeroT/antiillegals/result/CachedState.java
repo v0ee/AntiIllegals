@@ -5,38 +5,46 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.zeroBzeroT.antiillegals.helpers.InventoryHolderHelper;
 
-import java.util.Objects;
-
 /**
- * Represents a cached state of an ItemStack, including its original item and its state.
- * Provides methods to hash item stacks based on their identity and NBT data,
+ * Represents a cached state of an ItemStack, including its original item and
+ * its state.
+ * Provides methods to build collision-free cache keys based on item identity
+ * and NBT data,
  * and to apply a cached state back to an ItemStack.
  */
 public record CachedState(@NotNull ItemStack revertedStack, @NotNull ItemState revertedState) {
     /**
-     * hashes the item identity, not the object reference itself
+     * Builds a collision-free cache key from the item's material, amount, and full
+     * NBT
+     * string. Two items that are functionally identical will produce the same key;
+     * two
+     * items that differ in any way will produce different keys, eliminating the
+     * false
+     * cache-hit problem that arose from using a 32-bit int hash as the key.
      *
-     * @param itemStack the itemstack to find the hashcode of
-     * @return the hashcode
+     * @param itemStack the itemstack to key
+     * @return a unique string key for this item's logical identity
      */
-    public static int itemStackHashCode(@NotNull final ItemStack itemStack) {
-        return Objects.hash(
-                itemStack.getType().ordinal(),
-                itemStack.getAmount(),
-                nbtHashCode(itemStack)
-        );
+    @NotNull
+    public static String itemStackCacheKey(@NotNull final ItemStack itemStack) {
+        return itemStack.getType().ordinal() + ":" + itemStack.getAmount() + ":" + nbtString(itemStack);
     }
 
     /**
-     * NBT hashcode implementation.
+     * Returns the raw NBT serialization of the item's meta, or an empty string if
+     * the
+     * item has no meta. Used as part of the cache key so that every NBT detail is
+     * captured without any intermediate hashing.
      *
-     * @param itemStack the item stack of which the nbt json will be used
-     * @return the hashcode of the nbt
+     * @param itemStack the item stack of which the nbt string will be used
+     * @return the NBT string of the item meta
      */
-    private static Object nbtHashCode(@NotNull ItemStack itemStack) {
+    @NotNull
+    private static String nbtString(@NotNull ItemStack itemStack) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) return 0;
-        return Objects.hash(itemMeta.getAsString());
+        if (itemMeta == null)
+            return "";
+        return itemMeta.getAsString();
     }
 
     /**
